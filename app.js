@@ -671,7 +671,6 @@ document.addEventListener("DOMContentLoaded", () => {
             typeof PLATFORM_CONFIG !== "undefined" ? PLATFORM_CONFIG.payment : null;
         const amount = payment?.amount || "$5.000";
         const alias = payment?.alias || "barceloclub";
-        const cvu = payment?.cvu || "—";
         const fullName =
             u?.nombreCompleto || `${u?.nombre || ""} ${u?.apellido || ""}`.trim();
 
@@ -682,8 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "¡Hola! Quiero registrar mi cuenta en el Prode de Barceló Club.\n\n" +
             `Nombre completo: ${fullName}\n` +
             `Inscripción: ${amount}\n` +
-            `Alias: ${alias}\n` +
-            `CVU: ${cvu}\n\n` +
+            `Alias: ${alias}\n\n` +
             "Adjunto comprobante de pago. ¡Gracias!"
         );
     }
@@ -1634,10 +1632,8 @@ document.addEventListener("DOMContentLoaded", () => {
             typeof PLATFORM_CONFIG !== "undefined" ? PLATFORM_CONFIG.payment : null;
         const amountEl = document.getElementById("payment-amount");
         const aliasEl = document.getElementById("payment-alias");
-        const cvuEl = document.getElementById("payment-cvu");
         if (amountEl) amountEl.textContent = payment?.amount || "$5.000";
         if (aliasEl) aliasEl.textContent = payment?.alias || "barceloclub";
-        if (cvuEl) cvuEl.textContent = payment?.cvu || "—";
     }
 
     function showAuthScreen(screenNum) {
