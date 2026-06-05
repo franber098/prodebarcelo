@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — PREDICT 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+    <div id="admin-login" class="admin-login-wrap">
+        <div class="glass-panel p-8 rounded-2xl max-w-md w-full border-t-4 border-t-emerald-500">
+            <h1 class="text-3xl font-black text-center mb-2 title-scoreboard">Admin PREDICT</h1>
+            <p class="text-slate-400 text-sm text-center mb-6">Acceso restringido al administrador</p>
+            <form id="admin-login-form" class="space-y-4">
+                <div>
+                    <label for="admin-password" class="block text-xs font-bold text-slate-400 mb-1">Contraseña de administrador</label>
+                    <input type="password" id="admin-password" required
+                           class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-3 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <p id="admin-login-error" class="text-xs text-red-400 hidden"></p>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-black font-black py-3 rounded-lg">Ingresar</button>
+            </form>
+            <p class="text-xs text-slate-500 text-center mt-4">Cambiá la contraseña en <code class="text-emerald-400">platform-config.js</code></p>
+        </div>
+    </div>
+
+    <div id="admin-app" class="admin-panel max-w-6xl mx-auto px-4 py-8">
+        <header class="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-black title-scoreboard">Panel Administrador</h1>
+                <p class="text-slate-400 text-sm">Usuarios · Resultados reales · Prodes enviados</p>
+            </div>
+            <div class="flex gap-2 flex-wrap">
+                <button type="button" id="btn-export-db" class="admin-btn admin-btn--ghost">Exportar DB</button>
+                <button type="button" id="btn-import-db" class="admin-btn admin-btn--ghost">Importar DB</button>
+                <input type="file" id="import-db-file" accept="application/json" class="hidden">
+                <button type="button" id="btn-admin-logout" class="admin-btn admin-btn--ghost">Salir</button>
+            </div>
+        </header>
+
+        <nav class="admin-nav" role="tablist">
+            <button type="button" class="admin-nav-btn is-active" data-admin-tab="users">Usuarios pendientes</button>
+            <button type="button" class="admin-nav-btn" data-admin-tab="fixture">Fixture maestro</button>
+            <button type="button" class="admin-nav-btn" data-admin-tab="prodes">Prodes enviados</button>
+        </nav>
+
+        <section id="tab-users" class="admin-tab-panel">
+            <div class="admin-card">
+                <h2 class="text-lg font-black text-emerald-400 mb-4">Solicitudes de acceso</h2>
+                <p class="text-sm text-slate-400 mb-4">Verificá el comprobante en WhatsApp y aceptá o denegá cada registro.</p>
+                <div id="pending-users-list"></div>
+            </div>
+            <div class="admin-card mt-4">
+                <h2 class="text-lg font-black text-slate-300 mb-2">Usuarios aprobados</h2>
+                <div id="approved-users-list" class="text-sm text-slate-400"></div>
+            </div>
+        </section>
+
+        <section id="tab-fixture" class="admin-tab-panel hidden">
+            <div class="admin-card mb-4">
+                <h2 class="text-lg font-black text-emerald-400 mb-2">Resultados reales — Fase de grupos</h2>
+                <p class="text-sm text-slate-400 mb-4">Los clasificados a 16avos se calculan automáticamente al cargar goles.</p>
+                <div id="admin-groups-fixture" class="admin-fixture-grid"></div>
+            </div>
+            <div class="admin-card">
+                <h2 class="text-lg font-black text-emerald-400 mb-2">Resultados reales — Eliminatoria</h2>
+                <p class="text-sm text-slate-400 mb-4">Los equipos se completan solos según grupos y ganadores previos.</p>
+                <div id="admin-knockout-fixture"></div>
+            </div>
+        </section>
+
+        <section id="tab-prodes" class="admin-tab-panel hidden">
+            <div class="admin-card">
+                <h2 class="text-lg font-black text-emerald-400 mb-4">Ranking de prodes</h2>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre completo</th>
+                                <th>Puntaje</th>
+                                <th>Enviado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="prodes-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="admin-confirm" class="admin-confirm-overlay" aria-hidden="true">
+        <div class="admin-confirm-box">
+            <h3 id="confirm-title" class="text-lg font-black mb-2">¿Confirmar acción?</h3>
+            <p id="confirm-message" class="text-sm text-slate-400 mb-6"></p>
+            <div class="flex gap-2 justify-end">
+                <button type="button" id="confirm-cancel" class="admin-btn admin-btn--ghost">Cancelar</button>
+                <button type="button" id="confirm-ok" class="admin-btn admin-btn--approve">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-view-prode" class="admin-view-overlay" aria-hidden="true">
+        <div class="admin-view-panel">
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="view-prode-title" class="text-xl font-black text-emerald-400"></h3>
+                <button type="button" id="view-prode-close" class="admin-btn admin-btn--ghost">Cerrar</button>
+            </div>
+            <div id="view-prode-content" class="text-sm text-slate-300 space-y-4"></div>
+        </div>
+    </div>
+
+    <script src="platform-config.js"></script>
+    <script src="db.js"></script>
+    <script src="fixture-data.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

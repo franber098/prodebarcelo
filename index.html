@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREDICT Mundial 2026 Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="modal-active">
+
+    <!-- Modal de Acceso Validado -->
+    <div id="entry-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md transition-opacity duration-500">
+        <div class="glass-panel p-8 rounded-2xl max-w-lg w-full mx-4 border-t-4 border-t-emerald-500 relative overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-6 relative z-10">
+                <h2 class="text-4xl sm:text-5xl font-extrabold mb-2 title-scoreboard tracking-tight">PREDICT 2026</h2>
+                <p class="text-slate-300 text-sm font-semibold">Mundial FIFA · USA · México · Canadá</p>
+            </div>
+
+            <!-- PANTALLA 1: CREAR CUENTA -->
+            <div id="screen-1" class="relative z-10">
+                <form id="entry-form" class="space-y-4">
+                    <div class="bg-slate-900/60 border border-slate-700/50 rounded-xl p-6 shadow-inner">
+                        <p class="text-slate-300 text-sm font-medium leading-relaxed text-center mb-5">
+                            Creá tu cuenta para participar en el PREDICT Mundial 2026.
+                        </p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="nombre-completo" class="block text-xs font-bold text-slate-400 mb-1">Nombre completo <span class="text-red-400">*</span></label>
+                                <input type="text" id="nombre-completo" required placeholder="Ej: Franco Ramírez" autocomplete="name"
+                                       class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+                            </div>
+                            <div>
+                                <label for="reg-password" class="block text-xs font-bold text-slate-400 mb-1">Contraseña <span class="text-red-400">*</span></label>
+                                <div class="password-wrap">
+                                    <input type="password" id="reg-password" required placeholder="Mínimo 7 caracteres" minlength="7" autocomplete="new-password"
+                                           class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all pr-12">
+                                    <button type="button" class="password-toggle" data-password-toggle data-target="reg-password" aria-label="Mostrar contraseña" title="Mostrar / ocultar">
+                                        <svg class="password-toggle__icon password-toggle__icon--show" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <svg class="password-toggle__icon password-toggle__icon--hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.58 10.58A3 3 0 0012 15a3 3 0 002.42-4.42"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.88 5.08A10.94 10.94 0 0112 5c4.477 0 8.268 2.943 9.542 7a11.2 11.2 0 01-2.2 3.62M6.11 6.11A11.2 11.2 0 002.458 12C3.732 16.057 7.523 19 12 19c1.02 0 2.01-.15 2.95-.44"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="password-hint">
+                                    Requisitos: <strong>7+</strong> caracteres, al menos <strong>1 mayúscula</strong>, <strong>1 minúscula</strong>, <strong>1 número</strong> y <strong>1 símbolo</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="register-error" class="text-xs text-red-400 text-center hidden"></div>
+                    <button type="submit" id="btn-continue" class="w-full bg-gradient-to-r from-green-600 to-[#39FF14] hover:from-green-500 hover:to-[#4dff2a] text-black font-black py-4 px-4 rounded-lg transition-all shadow-lg text-lg">
+                        Crear cuenta y ver datos de pago
+                    </button>
+                    <div class="text-center mt-3">
+                        <button type="button" id="btn-go-login" class="text-emerald-400 hover:text-emerald-300 font-bold text-sm transition-colors focus:outline-none">
+                            Ya tengo cuenta, iniciar sesión &rarr;
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PANTALLA 2: DATOS DE INSCRIPCIÓN -->
+            <div id="screen-2" class="hidden relative z-10 space-y-4">
+                <div class="bg-slate-900/60 border border-slate-700/50 rounded-xl p-6 shadow-inner text-center">
+                    <p class="text-sm text-slate-300 mb-4">Transferí la inscripción y enviá el comprobante por WhatsApp.</p>
+                    <div class="space-y-2 text-left bg-slate-950/60 p-4 rounded-lg border border-slate-800">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-bold text-slate-400">INSCRIPCIÓN:</span>
+                            <span id="payment-amount" class="font-black text-emerald-400">$5.000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-bold text-slate-400">ALIAS:</span>
+                            <span id="payment-alias" class="font-black text-white selection:bg-emerald-500">barceloclub</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-bold text-slate-400">CVU:</span>
+                            <span id="payment-cvu" class="font-black text-white font-mono text-xs sm:text-sm selection:bg-emerald-500">—</span>
+                        </div>
+                    </div>
+                    <p id="registered-user-display" class="text-sm font-bold text-slate-300 mt-4">
+                        Registrado como: <span class="text-white">—</span>
+                    </p>
+                </div>
+                <button type="button" id="btn-whatsapp" class="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-black py-4 px-4 rounded-lg transition-all shadow-lg text-lg flex items-center justify-center gap-3">
+                    <svg class="w-7 h-7 shrink-0" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Enviar Comprobante de Pago
+                </button>
+                <p class="text-xs text-slate-400 text-center">Después de enviar el comprobante, iniciá sesión cuando el administrador apruebe tu cuenta.</p>
+                <button type="button" id="btn-after-payment-login" class="w-full border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 font-bold py-3 px-4 rounded-lg transition-all text-sm">
+                    Ir a iniciar sesión
+                </button>
+            </div>
+
+            <!-- PANTALLA 3: INICIAR SESIÓN -->
+            <div id="screen-3" class="hidden relative z-10">
+                <form id="login-form" class="space-y-4">
+                    <div class="bg-slate-900/60 border border-slate-700/50 rounded-xl p-6 shadow-inner">
+                        <p class="text-slate-300 text-sm font-medium leading-relaxed text-center mb-5">
+                            Ingresá con tu nombre completo y contraseña.
+                        </p>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="login-nombre" class="block text-xs font-bold text-slate-400 mb-1">Nombre completo <span class="text-red-400">*</span></label>
+                                <input type="text" id="login-nombre" required placeholder="Ej: Franco Ramírez" autocomplete="username"
+                                       class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+                            </div>
+                            <div>
+                                <label for="login-password" class="block text-xs font-bold text-slate-400 mb-1">Contraseña <span class="text-red-400">*</span></label>
+                                <div class="password-wrap">
+                                    <input type="password" id="login-password" required placeholder="Tu contraseña" minlength="7" autocomplete="current-password"
+                                           class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all pr-12">
+                                    <button type="button" class="password-toggle" data-password-toggle data-target="login-password" aria-label="Mostrar contraseña" title="Mostrar / ocultar">
+                                        <svg class="password-toggle__icon password-toggle__icon--show" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        <svg class="password-toggle__icon password-toggle__icon--hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.58 10.58A3 3 0 0012 15a3 3 0 002.42-4.42"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.88 5.08A10.94 10.94 0 0112 5c4.477 0 8.268 2.943 9.542 7a11.2 11.2 0 01-2.2 3.62M6.11 6.11A11.2 11.2 0 002.458 12C3.732 16.057 7.523 19 12 19c1.02 0 2.01-.15 2.95-.44"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="login-error" class="text-xs text-red-400 text-center hidden"></div>
+                    <div id="login-info" class="text-xs text-amber-300 text-center hidden"></div>
+                    <button type="submit" id="btn-login" class="w-full bg-gradient-to-r from-green-600 to-[#39FF14] hover:from-green-500 hover:to-[#4dff2a] text-black font-black py-4 px-4 rounded-lg transition-all shadow-lg text-lg">
+                        Iniciar sesión
+                    </button>
+                    <div class="text-center mt-3">
+                        <button type="button" id="btn-go-register" class="text-emerald-400 hover:text-emerald-300 font-bold text-sm transition-colors focus:outline-none">
+                            Crear una cuenta nueva &rarr;
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div id="app-content" class="min-h-screen flex flex-col">
+        <button type="button" id="btn-profile-menu" class="profile-menu-btn" title="Mi perfil, ranking y resultados" aria-label="Abrir menú de perfil">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span class="profile-menu-label">Mi Prode</span>
+        </button>
+
+        <!-- Encabezado -->
+        <header class="pt-12 pb-8 flex flex-col items-center justify-center relative z-10">
+            <img src="logomundial2026.png" alt="World Cup 2026" class="h-32 object-contain mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-center uppercase title-scoreboard">
+                PREDICT MUNDIAL
+            </h1>
+        </header>
+
+        <!-- Contenedor Principal (Fase de Grupos) -->
+        <section class="fase-grupos-section w-full mb-16 z-10 relative">
+            <div class="fase-grupos-inner fase-main-container">
+                <div class="fase-grupos-grid">
+
+            <!-- Columna Izquierda: Groups -->
+            <div class="fase-grupos-col fase-grupos-col--groups">
+                <div class="flex items-center justify-between mb-4 pb-2 border-b-2 border-slate-600/50">
+                    <h2 class="text-3xl font-black uppercase tracking-wider title-scoreboard">Fase de Grupos</h2>
+                </div>
+                <!-- Contenedor dinámico de grupos -->
+                <div id="groups-container" class="glass-panel rounded-2xl p-4 overflow-y-auto space-y-5">
+                    <!-- Rellenado dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Fixtures -->
+            <div class="fase-grupos-col fase-grupos-col--fixtures">
+                <div class="mb-4 pb-2 border-b-2 border-slate-600/50">
+                    <h2 class="text-3xl font-black uppercase tracking-wider title-scoreboard mb-4">Calendario Oficial</h2>
+                    <div id="group-pills" class="group-pills-grid" role="tablist" aria-label="Seleccionar grupo"></div>
+                </div>
+                <!-- Contenedor dinámico de partidos -->
+                <div class="matches-panel glass-panel rounded-2xl p-2 overflow-hidden flex flex-col relative">
+                    <div id="matches-container" class="overflow-y-auto p-4 space-y-4 h-full scroll-smooth">
+                        <!-- Rellenado dinámicamente -->
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Inferior: Cuadro Eliminatorio -->
+        <section class="fase-eliminatoria-section w-full relative z-10 mt-4">
+            <div class="fase-eliminatoria-inner fase-main-container glass-panel rounded-3xl border border-slate-600/30 p-4 sm:p-8 pb-12">
+                <div class="eliminatoria-section-header mb-8 px-2 text-center">
+                    <h2 class="text-4xl sm:text-5xl font-black mb-3 uppercase tracking-widest title-scoreboard">
+                        Fase Eliminatoria
+                    </h2>
+                    <p class="text-slate-300 mt-2 max-w-2xl mx-auto text-sm sm:text-base font-semibold leading-relaxed">
+                        Arma tu camino a la gloria. Haz clic en cualquier casillero "[ ? ]" para elegir un país (bandera y nombre). Al cargar los goles,
+                        el ganador avanza automáticamente a la siguiente ronda.
+                    </p>
+                </div>
+
+                <div class="eliminatoria-row">
+                    <div class="bracket-eliminatoria-panel glass-panel border border-slate-600/40 border-t-4 border-t-slate-500/60 py-8 sm:py-10 rounded-3xl shadow-2xl">
+                        <div id="bracket-auto-status" class="bracket-groups-progress" role="status" aria-live="polite">
+                            <div class="group-progress-head">
+                                <span class="group-progress-title">Progreso — Fase de grupos</span>
+                                <span class="group-progress-count" id="group-progress-count">0/12</span>
+                            </div>
+                            <p class="group-progress-msg">Completá los resultados de cada grupo: los 1º y 2º entran al cuadro en vivo. Los 8 mejores terceros se asignan cuando los 12 grupos estén listos.</p>
+                            <div class="group-progress-chips" id="group-progress-chips"></div>
+                        </div>
+                        <div class="bracket-area">
+                                    <div class="mobile-bracket-tabs hidden" id="mobile-bracket-tabs" role="tablist" aria-label="Seleccionar llave del torneo">
+                                        <button type="button" id="tab-bracket-left" class="mobile-bracket-tab active" role="tab" aria-selected="true" data-bracket-tab="A">Llave A</button>
+                                        <button type="button" id="tab-bracket-right" class="mobile-bracket-tab" role="tab" aria-selected="false" data-bracket-tab="B">Llave B</button>
+                                    </div>
+                                    <div class="bracket-scroll-wrap" id="bracket-scroll-container">
+                                        <div id="bracket-container" class="bracket-layout">
+
+        <div id="bracket-side-left" class="bracket-side bracket-half-row flex flex-row gap-6">
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r16">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">16avos de Final</h4>
+                    <p class="bracket-phase-date mt-1">28 Jun – 3 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-1" data-slot="home" id="input-node-16L-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-1" data-slot="away" id="input-node-16L-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-2" data-slot="home" id="input-node-16L-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-2" data-slot="away" id="input-node-16L-2-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-3">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-3" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-3-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-3-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-3" data-slot="home" id="input-node-16L-3-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-3" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-3-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-3-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-3" data-slot="away" id="input-node-16L-3-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-4">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-4" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-4-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-4-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-4" data-slot="home" id="input-node-16L-4-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-4" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-4-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-4-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-4" data-slot="away" id="input-node-16L-4-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-5">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-5" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-5-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-5-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-5" data-slot="home" id="input-node-16L-5-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-5" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-5-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-5-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-5" data-slot="away" id="input-node-16L-5-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-6">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-6" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-6-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-6-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-6" data-slot="home" id="input-node-16L-6-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-6" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-6-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-6-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-6" data-slot="away" id="input-node-16L-6-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-7">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-7" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-7-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-7-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-7" data-slot="home" id="input-node-16L-7-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-7" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-7-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-7-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-7" data-slot="away" id="input-node-16L-7-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16L-8">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-8" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16L-8-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-8-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-8" data-slot="home" id="input-node-16L-8-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16L-8" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16L-8-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16L-8-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16L-8" data-slot="away" id="input-node-16L-8-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r8">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Octavos</h4>
+                    <p class="bracket-phase-date mt-1">4 – 7 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8L-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8L-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-1" data-slot="home" id="input-node-8L-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8L-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-1" data-slot="away" id="input-node-8L-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8L-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8L-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-2" data-slot="home" id="input-node-8L-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8L-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-2" data-slot="away" id="input-node-8L-2-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8L-3">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-3" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8L-3-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-3-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-3" data-slot="home" id="input-node-8L-3-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-3" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8L-3-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-3-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-3" data-slot="away" id="input-node-8L-3-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8L-4">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-4" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8L-4-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-4-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-4" data-slot="home" id="input-node-8L-4-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8L-4" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8L-4-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8L-4-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8L-4" data-slot="away" id="input-node-8L-4-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r4">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Cuartos</h4>
+                    <p class="bracket-phase-date mt-1">10 – 11 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-4L-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4L-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-4L-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4L-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4L-1" data-slot="home" id="input-node-4L-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4L-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-4L-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4L-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4L-1" data-slot="away" id="input-node-4L-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-4L-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4L-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-4L-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4L-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4L-2" data-slot="home" id="input-node-4L-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4L-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-4L-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4L-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4L-2" data-slot="away" id="input-node-4L-2-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r2">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Semifinal</h4>
+                    <p class="bracket-phase-date mt-1">14 – 15 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-2L-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-2L-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-2L-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-2L-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-2L-1" data-slot="home" id="input-node-2L-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-2L-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-2L-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-2L-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-2L-1" data-slot="away" id="input-node-2L-1-away">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bracket-center-column flex flex-col items-center justify-center gap-4 px-2 shrink-0 w-96">
+            <div class="bracket-cup-wrap w-full flex justify-center">
+            <img src="copadelmundo.png" alt="Copa del Mundo FIFA" class="bracket-cup-img object-contain drop-shadow-[0_0_25px_rgba(245,158,11,0.5)]" onerror="this.onerror=null;this.src='COPA_DEL_MUNDO.PNG'">
+            </div>
+
+            <div class="w-full mt-2 bracket-block-final">
+                <h4 class="text-center text-sm font-black text-yellow-500 uppercase tracking-[0.2em] mb-1 title-scoreboard">GRAN FINAL</h4>
+                <p class="bracket-phase-date text-center mb-3">19 Jul 2026</p>
+                <div class="bracket-node-container p-3 flex flex-col gap-2 border-yellow-500/50 shadow-[0_0_20px_rgba(245,158,11,0.2)] bg-slate-800" id="node-1-final">
+                    <div class="flex items-center justify-between gap-3 p-2 bg-slate-900 rounded-lg border border-slate-700">
+                        <div class="team-selector flex items-center gap-3 flex-1 p-1 rounded" data-match="node-1-final" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-1-final-home">
+                                <div class="w-9 h-6 bg-slate-700 rounded border border-slate-600"></div>
+                            </div>
+                            <span class="text-base font-bold text-slate-300 truncate w-32" id="name-node-1-final-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-10 h-10 text-lg bracket-score" placeholder="-" data-match="node-1-final" data-slot="home" id="input-node-1-final-home">
+                    </div>
+                    <div class="text-center text-xs font-black text-slate-500 my-1">VS</div>
+                    <div class="flex items-center justify-between gap-3 p-2 bg-slate-900 rounded-lg border border-slate-700">
+                        <div class="team-selector flex items-center gap-3 flex-1 p-1 rounded" data-match="node-1-final" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-1-final-away">
+                                <div class="w-9 h-6 bg-slate-700 rounded border border-slate-600"></div>
+                            </div>
+                            <span class="text-base font-bold text-slate-300 truncate w-32" id="name-node-1-final-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-10 h-10 text-lg bracket-score" placeholder="-" data-match="node-1-final" data-slot="away" id="input-node-1-final-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full mt-2 bracket-block-tercero">
+                <h4 class="text-center text-sm font-black text-yellow-500 uppercase tracking-[0.2em] mb-1 title-scoreboard">TERCER PUESTO</h4>
+                <p class="bracket-phase-date text-center mb-3">18 Jul 2026</p>
+                <div class="bracket-node-container p-3 flex flex-col gap-2 border-yellow-500/50 shadow-[0_0_20px_rgba(245,158,11,0.2)] bg-slate-800" id="node-3-tercero">
+                    <div class="flex items-center justify-between gap-3 p-2 bg-slate-900 rounded-lg border border-slate-700">
+                        <div class="team-selector flex items-center gap-3 flex-1 p-1 rounded" data-match="node-3-tercero" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-3-tercero-home">
+                                <div class="w-9 h-6 bg-slate-700 rounded border border-slate-600"></div>
+                            </div>
+                            <span class="text-base font-bold text-slate-300 truncate w-32" id="name-node-3-tercero-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-10 h-10 text-lg bracket-score" placeholder="-" data-match="node-3-tercero" data-slot="home" id="input-node-3-tercero-home">
+                    </div>
+                    <div class="text-center text-xs font-black text-slate-500 my-1">VS</div>
+                    <div class="flex items-center justify-between gap-3 p-2 bg-slate-900 rounded-lg border border-slate-700">
+                        <div class="team-selector flex items-center gap-3 flex-1 p-1 rounded" data-match="node-3-tercero" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-3-tercero-away">
+                                <div class="w-9 h-6 bg-slate-700 rounded border border-slate-600"></div>
+                            </div>
+                            <span class="text-base font-bold text-slate-300 truncate w-32" id="name-node-3-tercero-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-10 h-10 text-lg bracket-score" placeholder="-" data-match="node-3-tercero" data-slot="away" id="input-node-3-tercero-away">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="bracket-side-right" class="bracket-side bracket-half-row flex flex-row-reverse gap-6">
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r16">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">16avos de Final</h4>
+                    <p class="bracket-phase-date mt-1">28 Jun – 3 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-1" data-slot="home" id="input-node-16R-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-1" data-slot="away" id="input-node-16R-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-2" data-slot="home" id="input-node-16R-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-2" data-slot="away" id="input-node-16R-2-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-3">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-3" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-3-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-3-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-3" data-slot="home" id="input-node-16R-3-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-3" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-3-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-3-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-3" data-slot="away" id="input-node-16R-3-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-4">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-4" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-4-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-4-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-4" data-slot="home" id="input-node-16R-4-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-4" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-4-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-4-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-4" data-slot="away" id="input-node-16R-4-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-5">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-5" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-5-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-5-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-5" data-slot="home" id="input-node-16R-5-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-5" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-5-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-5-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-5" data-slot="away" id="input-node-16R-5-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-6">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-6" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-6-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-6-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-6" data-slot="home" id="input-node-16R-6-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-6" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-6-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-6-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-6" data-slot="away" id="input-node-16R-6-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-7">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-7" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-7-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-7-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-7" data-slot="home" id="input-node-16R-7-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-7" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-7-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-7-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-7" data-slot="away" id="input-node-16R-7-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-16R-8">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-8" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-16R-8-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-8-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-8" data-slot="home" id="input-node-16R-8-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-16R-8" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-16R-8-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-16R-8-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-16R-8" data-slot="away" id="input-node-16R-8-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r8">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Octavos</h4>
+                    <p class="bracket-phase-date mt-1">4 – 7 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8R-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8R-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-1" data-slot="home" id="input-node-8R-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8R-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-1" data-slot="away" id="input-node-8R-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8R-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8R-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-2" data-slot="home" id="input-node-8R-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8R-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-2" data-slot="away" id="input-node-8R-2-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8R-3">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-3" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8R-3-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-3-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-3" data-slot="home" id="input-node-8R-3-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-3" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8R-3-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-3-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-3" data-slot="away" id="input-node-8R-3-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-8R-4">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-4" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-8R-4-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-4-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-4" data-slot="home" id="input-node-8R-4-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-8R-4" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-8R-4-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-8R-4-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-8R-4" data-slot="away" id="input-node-8R-4-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r4">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Cuartos</h4>
+                    <p class="bracket-phase-date mt-1">10 – 11 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-4R-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4R-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-4R-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4R-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4R-1" data-slot="home" id="input-node-4R-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4R-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-4R-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4R-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4R-1" data-slot="away" id="input-node-4R-1-away">
+                    </div>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-4R-2">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4R-2" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-4R-2-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4R-2-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4R-2" data-slot="home" id="input-node-4R-2-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-4R-2" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-4R-2-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-4R-2-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-4R-2" data-slot="away" id="input-node-4R-2-away">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-around py-2 gap-4 shrink-0 w-64 bracket-column bracket-col-r2">
+                <div class="bracket-column-header text-center mb-4">
+                    <h4 class="text-xs font-black uppercase tracking-widest title-scoreboard">Semifinal</h4>
+                    <p class="bracket-phase-date mt-1">14 – 15 Jul 2026</p>
+                </div>
+                <div class="bracket-node-container p-2 flex flex-col gap-2 relative z-10 w-full mb-3" id="node-2R-1">
+                    <!-- Home -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-2R-1" data-slot="home">
+                            <div class="flag-icon-container" id="flag-node-2R-1-home">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-2R-1-home">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-2R-1" data-slot="home" id="input-node-2R-1-home">
+                    </div>
+                    <div class="h-px bg-slate-600 w-full my-0.5"></div>
+                    <!-- Away -->
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="team-selector flex items-center gap-2 flex-1 p-1 rounded" data-match="node-2R-1" data-slot="away">
+                            <div class="flag-icon-container" id="flag-node-2R-1-away">
+                                <div class="w-6 h-4 bg-slate-700 border border-slate-600 rounded-sm"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-300 truncate w-24" id="name-node-2R-1-away">[ ? ]</span>
+                        </div>
+                        <input type="number" min="0" max="15" class="input-goles w-8 h-8 text-xs bracket-score" placeholder="-" data-match="node-2R-1" data-slot="away" id="input-node-2R-1-away">
+                    </div>
+                </div>
+            </div>
+        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="scoring-rules-panel glass-panel rounded-2xl p-5 sm:p-6">
+                        <h3 class="text-xl sm:text-2xl font-black uppercase tracking-wider title-scoreboard mb-5 text-center">
+                            Instrucciones de Puntaje
+                        </h3>
+                        <ul class="scoring-rules-list space-y-4">
+                            <li class="scoring-rule-item">
+                                <span class="scoring-rule-points">1 pt</span>
+                                <p class="scoring-rule-text title-scoreboard">Acierto de Selección clasificada <span class="scoring-rule-phase">(Fase Eliminatoria)</span></p>
+                            </li>
+                            <li class="scoring-rule-item">
+                                <span class="scoring-rule-points">3 pts</span>
+                                <p class="scoring-rule-text title-scoreboard">Acierto de Resultado Exacto <span class="scoring-rule-phase">(Goles en cualquier fase)</span></p>
+                            </li>
+                            <li class="scoring-rule-item">
+                                <span class="scoring-rule-points">2 pts</span>
+                                <p class="scoring-rule-text title-scoreboard">Acierto del Campeón en la Gran Final</p>
+                            </li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- Botón Finalizar dentro del contenedor principal -->
+            <div class="flex flex-col items-center text-center py-12 mt-4">
+                <p id="finalize-status-hint" class="finalize-status-hint" role="status" aria-live="polite">
+                    Completá el <strong>prode al 100%</strong> (todos los partidos de fase de grupos y eliminatoria) para habilitar el envío. Una vez enviado, no podrás modificarlo.
+                </p>
+                <button id="btn-finalize" class="btn-finalize font-black text-2xl py-5 px-16 rounded-full uppercase tracking-wider mb-2 flex items-center" disabled>
+                    <svg class="w-8 h-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Enviar Prode
+                </button>
+            </div>
+        </section>
+
+        <!-- Mis Predicciones Guardadas (hidden by default) -->
+        <section id="mis-predicciones-section" class="w-full relative z-10 mt-8 hidden">
+            <div class="fase-main-container glass-panel rounded-3xl border border-slate-600/30 p-4 sm:p-8">
+                <div class="mb-8 px-2 text-center">
+                    <h2 class="text-4xl sm:text-5xl font-black mb-3 uppercase tracking-widest title-scoreboard">
+                        Mis Predicciones Guardadas
+                    </h2>
+                    <div class="flex items-center justify-center gap-4 mt-4">
+                        <span class="text-3xl sm:text-4xl font-black text-emerald-400">Puntaje Total:</span>
+                        <span id="puntaje-total" class="text-3xl sm:text-4xl font-black text-emerald-400">0 Puntos</span>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Resumen de Fase de Grupos -->
+                    <div class="bg-slate-900/60 border border-slate-700/50 rounded-xl p-4">
+                        <h3 class="text-lg font-bold text-emerald-400 mb-3 uppercase">Fase de Grupos</h3>
+                        <div id="resumen-grupos" class="text-sm text-slate-300 space-y-1 font-mono">
+                            <!-- Rellenado dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Resumen de Fase Eliminatoria -->
+                    <div class="bg-slate-900/60 border border-slate-700/50 rounded-xl p-4">
+                        <h3 class="text-lg font-bold text-emerald-400 mb-3 uppercase">Fase Eliminatoria</h3>
+                        <div id="resumen-eliminatoria" class="text-sm text-slate-300 space-y-1 font-mono">
+                            <!-- Rellenado dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 mt-8">
+                    <button id="btn-copy-resumen" class="w-full sm:w-2/3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black py-4 px-6 rounded-lg transition-all shadow-lg text-lg flex items-center justify-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        Enviar Resumen a WhatsApp
+                    </button>
+                    <p class="text-xs text-slate-400 text-center mt-2">
+                        Se abrirá WhatsApp con tu prode completo listo para enviar al administrador
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-6 flex flex-col items-center text-center z-20 relative mt-auto">
+            <p class="text-slate-500 text-sm font-medium">&copy; 2026 PREDICT Mundial. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+    
+    <!-- Sidebar: predicciones y ranking -->
+    <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true">
+        <aside id="prediction-sidebar" class="prediction-sidebar" role="dialog" aria-labelledby="sidebar-title">
+            <div class="sidebar-header">
+                <div>
+                    <h2 id="sidebar-title" class="text-lg font-black uppercase tracking-wide title-scoreboard">Panel Prode</h2>
+                    <p id="sidebar-user-label" class="text-xs text-slate-400 mt-0.5 font-semibold"></p>
+                </div>
+                <button type="button" id="sidebar-close" class="sidebar-close-btn" aria-label="Cerrar panel">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="sidebar-tabs" role="tablist">
+                <button type="button" class="sidebar-tab-btn is-active" data-sidebar-tab="mine" role="tab" aria-selected="true">Mi predicción</button>
+                <button type="button" class="sidebar-tab-btn" data-sidebar-tab="ranking" role="tab" aria-selected="false">Ranking</button>
+                <button type="button" class="sidebar-tab-btn" data-sidebar-tab="results" role="tab" aria-selected="false">Resultados reales</button>
+            </nav>
+            <div class="sidebar-body">
+                <div id="sidebar-panel-mine" class="sidebar-tab-panel is-active" role="tabpanel">
+                    <p class="sidebar-section-title">Resumen eliminatoria</p>
+                    <div id="sidebar-my-predictions"></div>
+                    <p class="sidebar-section-title">Campeón y final</p>
+                    <div id="sidebar-my-champion"></div>
+                    <button type="button" id="sidebar-btn-copy-whatsapp" class="sidebar-btn-copy">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Enviar a WhatsApp
+                    </button>
+                </div>
+                <div id="sidebar-panel-ranking" class="sidebar-tab-panel" role="tabpanel" hidden>
+                    <p class="sidebar-section-title">Tabla de posiciones</p>
+                    <p class="text-xs text-slate-400 mb-3">Se actualiza según los resultados reales publicados en el admin (3 pts exacto · 1 pt clasificado · 2 pts campeón)</p>
+                    <div id="sidebar-ranking-wrap"></div>
+                </div>
+                <div id="sidebar-panel-results" class="sidebar-tab-panel" role="tabpanel" hidden>
+                    <p class="sidebar-section-title">Resultados oficiales publicados</p>
+                    <p class="text-xs text-slate-400 mb-3">Solo partidos que el administrador confirmó y publicó.</p>
+                    <div id="sidebar-real-results"></div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button type="button" id="sidebar-btn-logout" class="sidebar-btn-logout">Cerrar sesión</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Confirmación envío prode -->
+    <div id="submit-confirm-overlay" class="submit-confirm-overlay" aria-hidden="true">
+        <div class="submit-confirm-box glass-panel p-6 rounded-2xl max-w-md w-full mx-4 border border-emerald-500/30">
+            <h3 class="text-xl font-black text-white mb-2">¿Enviar tu prode?</h3>
+            <div id="submit-confirm-message" class="text-sm text-slate-300 mb-6"></div>
+            <div class="flex gap-3 justify-end">
+                <button type="button" id="submit-confirm-cancel" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 font-bold text-sm hover:bg-slate-800">Cancelar</button>
+                <button type="button" id="submit-confirm-ok" class="px-4 py-2 rounded-lg bg-emerald-500 text-black font-black text-sm hover:bg-emerald-400">Sí, enviar prode</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popover 48 Equipos -->
+    <div id="team-popover" class="fixed z-[90] popover-hidden bg-slate-900/95 backdrop-blur-xl border border-slate-600 rounded-xl shadow-2xl w-[360px] p-4 transition-all duration-200">
+        <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-700">
+            <h3 class="font-bold text-sm text-white">Seleccionar Equipo</h3>
+            <button id="close-popover" class="text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <input type="text" id="popover-search" placeholder="Buscar país..." class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-md px-3 py-2 mb-3 outline-none focus:border-blue-500">
+        <div id="popover-list" class="max-h-[300px] overflow-y-auto pr-1 space-y-1">
+            <!-- Rellenado con JS -->
+        </div>
+    </div>
+
+    <script src="platform-config.js"></script>
+    <script src="db.js"></script>
+    <script src="admin-data.js"></script>
+    <script src="fixture-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
